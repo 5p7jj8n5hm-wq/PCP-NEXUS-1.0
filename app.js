@@ -57,9 +57,9 @@ $("scanBtn").onclick=async()=>{
     <div class="item ${conflict?'warning':'notice'}"><b>Identificación</b><br>Pozo: ${esc(selected||"No detectado")} · Confianza: ${confidence}<br>Hojas: ${sheets.length}<br>${conflict?`⚠️ También aparecen: ${contradictions.map(esc).join(", ")}. Verificar antes de guardar.`:"✓ No se detectó conflicto de pozo."}</div>
     <div class="item"><b>Componentes físicos detectados</b><br>${compHtml}</div>
     <div class="item"><b>Eventos/hallazgos narrativos</b><br>${eventHtml}</div>`;
-  $("reportResult").innerHTML=`<div class="item"><b>Reporte procesado con motor contextual 1.3.1</b><div class="muted">${esc(f.name)} · ${sheets.length} hoja(s) · ${comps.length} componente(s) físico(s) · ${events.length} evento(s)</div>${sheets.map(s=>`<span class="tag">${esc(s.name)}</span>`).join("")}</div>`;
+  $("reportResult").innerHTML=`<div class="item"><b>Reporte procesado con motor contextual 1.3.2</b><div class="muted">${esc(f.name)} · ${sheets.length} hoja(s) · ${comps.length} componente(s) físico(s) · ${events.length} evento(s)</div>${sheets.map(s=>`<span class="tag">${esc(s.name)}</span>`).join("")}</div>`;
 
-  analysis={version:"1.3.1",file:f.name,sheets,wells,selected,confidence,contradictions,labels,events,comps,photos:[...$("photos").files].map(x=>x.name),fullText,finalDate};
+  analysis={version:"1.3.2",file:f.name,sheets,wells,selected,confidence,contradictions,labels,events,comps,photos:[...$("photos").files].map(x=>x.name),fullText,finalDate};
 };
 
 $("saveService").onclick=()=>{
@@ -76,8 +76,8 @@ $("saveService").onclick=()=>{
     changeType:$("changeType").value,initialCondition:$("initialCondition").value,diagnosis:$("diagnosis").value,
     events:analysis.events,components:analysis.comps,spacing:readSpacing(),generatedReport:null};
   db.services.unshift(service);
-  analysis.comps.forEach(c=>db.components.unshift({id:Date.now()+Math.random(),well:analysis.selected,type:c.type,serial:c.serial||"No visible",status:c.status,destiny:c.destination,obs:c.obs||"Se conserva trazabilidad NEXUS 1.3.1.",photos:c.photos||[]}));
-  save();alert("Análisis NEXUS 1.3.1 guardado.");
+  analysis.comps.forEach(c=>db.components.unshift({id:Date.now()+Math.random(),well:analysis.selected,type:c.type,serial:c.serial||"No visible",status:c.status,destiny:c.destination,obs:c.obs||"Se conserva trazabilidad NEXUS 1.3.2.",photos:c.photos||[]}));
+  save();alert("Análisis NEXUS 1.3.2 guardado.");
 };
 
 $("componentForm").onsubmit=e=>{
@@ -103,8 +103,8 @@ $("validateSpacing").onclick=()=>{
 };
 
 $("exportNexus").onclick=()=>{
-  const blob=new Blob([JSON.stringify({version:"1.3.1",exportedAt:new Date().toISOString(),db},null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`PCP_NEXUS_1.3.1_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
+  const blob=new Blob([JSON.stringify({version:"1.3.2",exportedAt:new Date().toISOString(),db},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`PCP_NEXUS_1.3.2_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
 };
 
 function readSpacing(){return {model:$("pumpModel").value,type:$("pumpType").value,ref:Number($("refDepth").value),spacing:Number($("rodSpacing").value),tubing:Number($("tubingEnd").value),K:Number($("factorK").value),P:Number($("pressureP").value),d:Number($("spacerD").value),safetyFactor:Number($("safetyFactor").value),rods:Number($("rodCount").value)};}
