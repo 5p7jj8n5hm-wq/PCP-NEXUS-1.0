@@ -1,48 +1,47 @@
 <!doctype html>
-<html lang="es">
-<head>
+<html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08111f"><link rel="manifest" href="manifest.json"><title>PCP NEXUS 1.1</title>
-<link rel="stylesheet" href="styles.css">
+<meta name="theme-color" content="#08111f"><link rel="manifest" href="manifest.json">
+<title>PCP NEXUS 1.2</title><link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="brand">PCP NEXUS <span>1.1</span></div><div class="sub">Intelligent PCP Diagnostic • Traceability • Optimization</div></header>
+<header><div class="brand">PCP NEXUS <span>1.2</span></div><div class="sub">Intelligent PCP Diagnostic • Traceability • Root Cause</div></header>
 <main>
-<section class="hero"><h1>Centro de análisis PCP</h1><p>Carga reportes, registra evidencias y construye el historial técnico del pozo.</p></section>
-<nav class="tabs"><button class="tab active" data-tab="home">Inicio</button><button class="tab" data-tab="analyze">Analizar</button><button class="tab" data-tab="trace">PCP TRACE</button><button class="tab" data-tab="history">Historial</button></nav>
+<section class="hero"><h1>Centro de análisis PCP</h1><p>Extracción técnica, detección de pozo, trazabilidad y diagnóstico preliminar basado en evidencia.</p></section>
+<nav class="tabs"><button class="tab active" data-tab="home">Inicio</button><button class="tab" data-tab="analyze">🧠 Analizar</button><button class="tab" data-tab="trace">🔩 PCP TRACE</button><button class="tab" data-tab="history">📚 Historial</button></nav>
 
 <section id="home" class="panel active">
 <div class="cards"><div><b id="wellCount">0</b><span>Pozos</span></div><div><b id="serviceCount">0</b><span>Servicios</span></div><div><b id="componentCount">0</b><span>Componentes</span></div></div>
-<div class="box"><h2>Flujo NEXUS</h2><ol><li>Carga el Excel del servicio.</li><li>Registra fotos y observaciones.</li><li>Identifica componentes y seriales.</li><li>Genera un diagnóstico preliminar.</li><li>Conserva todo en el historial.</li></ol></div>
-<div class="notice">Esta versión procesa el Excel en el dispositivo. El motor de IA conectado a una base histórica y OCR avanzado será la siguiente capa.</div>
+<div class="box"><h2>Motor NEXUS 1.2</h2><p><b>Detecta automáticamente el pozo</b> usando nombre del archivo y contenido del Excel. Si existen datos contradictorios, los marca antes de guardar.</p></div>
 </section>
 
 <section id="analyze" class="panel">
-<h2>🧠 Nuevo análisis</h2>
-<label>Reporte Excel (.xlsx/.xls/.csv)<input id="excel" type="file" accept=".xlsx,.xls,.csv"></label>
-<label>Fotografías del servicio<input id="photos" type="file" accept="image/*" multiple></label>
-<div id="fileStatus" class="muted">Sin archivos cargados.</div>
-<button class="primary" id="scanBtn">Extraer información del reporte</button>
-<div id="extract"></div>
-<label>Pozo<input id="well" placeholder="V-357"></label>
-<label>Motivo / falla<textarea id="failure" placeholder="Ej.: bajo torque, varilla desconectada, fuga por coupling..."></textarea></label>
-<label>Diagnóstico / observaciones<textarea id="diagnosis" placeholder="Separa hechos confirmados de hipótesis."></textarea></label>
-<button class="primary" id="saveService">Guardar en historial</button>
+<h2>🧠 Análisis técnico</h2>
+<label>Reporte Excel<input id="excel" type="file" accept=".xlsx,.xls,.csv"></label>
+<label>Fotografías<input id="photos" type="file" accept="image/*" multiple></label>
+<div id="fileStatus" class="muted">Sin archivos.</div>
+<button class="primary" id="scanBtn">Analizar reporte</button>
+<div id="reportResult"></div>
+<label>Pozo detectado<input id="well" readonly></label>
+<label>Motivo / falla<textarea id="failure"></textarea></label>
+<label>Diagnóstico preliminar<textarea id="diagnosis"></textarea></label>
+<div id="evidence"></div>
+<button class="primary" id="saveService">Guardar análisis</button>
 </section>
 
 <section id="trace" class="panel">
 <h2>🔩 PCP TRACE</h2>
 <form id="componentForm">
-<label>Pozo<input id="cwell" required></label><label>Componente<input id="ctype" required placeholder="Estator / Rotor / Cabezal / Motor"></label>
+<label>Pozo<input id="cwell" required></label>
+<label>Componente<input id="ctype" required placeholder="Estator / Rotor / Cabezal / Motor"></label>
 <label>Serial<input id="serial" required></label>
 <label>Movimiento<select id="status"><option>Nuevo - instalado</option><option>Reutilizado</option><option>Sale operativo</option><option>Sale no operativo</option><option>Reemplazado</option></select></label>
-<label>Observación<textarea id="obs"></textarea></label><button class="primary">Registrar componente</button>
+<label>Observación<textarea id="obs"></textarea></label>
+<button class="primary">Registrar componente</button>
 </form>
 </section>
 
 <section id="history" class="panel"><h2>📚 Historial técnico</h2><div id="historyList"></div></section>
-</main>
-<footer>PCP NEXUS 1.1 · almacenamiento local del dispositivo</footer>
-<script src="app.js"></script>
-</body></html>
+</main><footer>PCP NEXUS 1.2 · datos locales del dispositivo</footer>
+<script src="app.js"></script></body></html>
