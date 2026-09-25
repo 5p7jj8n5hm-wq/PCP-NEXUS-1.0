@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220"><link rel="manifest" href="manifest.json">
+<title>PCP NEXUS 1.0</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div class="brand">PCP NEXUS <span>1.0</span></div><div class="sub">PCP Diagnostic • Traceability • Optimization</div></header>
+<main>
+<section class="hero"><h1>Centro de análisis PCP</h1><p>Registra pozos, servicios, componentes y evidencias para construir el historial técnico.</p></section>
+<nav class="tabs">
+<button class="tab active" data-tab="dashboard">Inicio</button>
+<button class="tab" data-tab="service">Servicio</button>
+<button class="tab" data-tab="components">Trazabilidad</button>
+<button class="tab" data-tab="history">Historial</button>
+</nav>
+
+<section id="dashboard" class="panel active">
+<div class="cards"><div><b id="wellCount">0</b><span>Pozos</span></div><div><b id="serviceCount">0</b><span>Servicios</span></div><div><b id="componentCount">0</b><span>Componentes</span></div></div>
+<div class="box"><h2>Flujo PCP NEXUS</h2><p>1. Carga el reporte del servicio · 2. Registra evidencias · 3. Identifica componentes y seriales · 4. Construye el diagnóstico · 5. Consulta el historial.</p></div>
+</section>
+
+<section id="service" class="panel">
+<h2>Nuevo servicio</h2>
+<form id="serviceForm">
+<label>Pozo<input id="well" required placeholder="V-357"></label>
+<label>Fecha<input id="date" type="date" required></label>
+<label>Tipo de servicio<input id="type" placeholder="Optimización / Workover"></label>
+<label>Falla o motivo<textarea id="failure" placeholder="Describe el síntoma o motivo"></textarea></label>
+<label>Diagnóstico técnico<textarea id="diagnosis" placeholder="Dato confirmado, inferencia o hipótesis"></textarea></label>
+<label>Reporte Excel<input id="excel" type="file" accept=".xlsx,.xls,.csv"></label>
+<label>Fotografías<input id="photos" type="file" accept="image/*" multiple></label>
+<button class="primary">Guardar servicio</button>
+</form>
+</section>
+
+<section id="components" class="panel">
+<h2>PCP TRACE</h2>
+<form id="componentForm">
+<label>Pozo<input id="cwell" required placeholder="V-357"></label>
+<label>Componente<input id="ctype" required placeholder="Estator / Rotor / Cabezal / Motor"></label>
+<label>Serial<input id="serial" required></label>
+<label>Estado<select id="status"><option>Nuevo - instalado</option><option>Reutilizado</option><option>Sale operativo</option><option>Sale no operativo</option><option>Reemplazado</option></select></label>
+<label>Observación<textarea id="obs"></textarea></label>
+<button class="primary">Registrar componente</button>
+</form>
+</section>
+
+<section id="history" class="panel">
+<h2>Historial</h2><div id="historyList"></div>
+</section>
+</main>
+<footer>PCP NEXUS 1.0 · Datos almacenados localmente en este dispositivo</footer>
+<script src="app.js"></script>
+</body></html>
