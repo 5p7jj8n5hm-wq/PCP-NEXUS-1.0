@@ -19,7 +19,7 @@ section{scroll-margin-top:80px;margin-bottom:22px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .field label{color:var(--muted);font-size:13px}
-.field select{width:100%;background:#071525;color:var(--text);border:1px solid #294463;border-radius:9px;padding:10px;font:inherit}
+.field select,.field input{width:100%;background:#071525;color:var(--text);border:1px solid #294463;border-radius:9px;padding:10px;font:inherit}
 .component{border-left:4px solid var(--accent)}
 .title{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .badge{padding:5px 9px;border-radius:99px;background:#17304f;color:#bfd0e5;font-size:12px}
@@ -32,7 +32,7 @@ footer{max-width:1200px;margin:auto;padding:8px 20px 28px;color:var(--muted);fon
 <body>
 <header>
 <h1>🧠 PCP NEXUS <span class="small">1.5.6</span></h1>
-<p>Inspección de equipos · Versión de prueba con despliegues únicamente</p>
+<p>Inspección de equipos · Fabricante y modelo en desplegable; datos técnicos por ingreso manual</p>
 </header>
 
 <nav>
@@ -103,21 +103,21 @@ return '<option value="">Seleccione...</option>'+list.map(x=>`<option>${x}</opti
 }
 
 function makeField(label,compIndex){
-let list=["No definido / ingreso manual"];
-if(label==="Fabricante") list=manufacturers[components[compIndex][0]+" · "+components[compIndex][1]]||list;
-if(label==="Modelo" && models[components[compIndex][1]]) list=models[components[compIndex][1]];
-if(label==="Conexión") list=["No definido / ingreso manual","2-7/8 EUE","3-1/2 EUE","Otro / ingreso manual"];
-if(label==="Diámetro") list=["No definido / ingreso manual","1\"","1-1/4\"","1-1/2\""];
-if(label==="Longitud") list=["No definido / ingreso manual","25 ft","40 ft"];
-if(label==="Longitud por varilla") list=["No definido / ingreso manual","25 ft"];
-if(label==="Tipo") list=["No definido / ingreso manual","Guía inyectada","Guía bipartida"];
-if(label==="Tamaño") list=["No definido / ingreso manual","2-7/8\"","3-1/2\""];
-if(label==="Elastómero") list=["No definido / ingreso manual"];
-if(label==="Size") list=["No definido / ingreso manual"];
-if(["Potencia","RPM","Voltaje","Amperaje"].includes(label)) list=["No definido / ingreso manual"];
-return `<div class="field"><label>${label}</label><select data-field="${label}">${options(list)}</select></div>`;
-}
+  const key=components[compIndex][0]+" · "+components[compIndex][1];
 
+  // Solo Fabricante y Modelo son desplegables.
+  if(label==="Fabricante"){
+    const list=manufacturers[key]||["No definido / ingreso manual"];
+    return `<div class="field"><label>${label}</label><select data-field="${label}">${options(list)}</select></div>`;
+  }
+
+  if(label==="Modelo" && models[components[compIndex][1]]){
+    return `<div class="field"><label>${label}</label><select data-field="${label}">${options(models[components[compIndex][1]])}</select></div>`;
+  }
+
+  // Todos los demás datos de placa/identificación se ingresan manualmente.
+  return `<div class="field"><label>${label}</label><input data-field="${label}" type="text" placeholder="Ingrese ${label}"></div>`;
+}
 function build(){
 const box=document.getElementById("components");
 components.forEach((c,i)=>{
