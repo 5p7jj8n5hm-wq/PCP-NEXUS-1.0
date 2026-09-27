@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PCP NEXUS 1.5.10</title>
+<title>PCP NEXUS 1.5.11</title>
 <style>
 :root{--bg:#071323;--panel:#102139;--panel2:#0b182b;--line:#263d5b;--text:#e8eef8;--muted:#9eb0c9;--accent:#f4c21d;--ok:#36c98f;--danger:#f06d6d}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}header{padding:22px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,19,35,.96);z-index:5}h1{margin:0;font-size:30px}header p{margin:5px 0 0;color:var(--muted)}nav{display:flex;gap:8px;overflow:auto;padding:12px 20px;border-bottom:1px solid var(--line);background:#08172a}nav button{white-space:nowrap;background:#0d2038;color:#aebed3;border:1px solid var(--line);border-radius:22px;padding:10px 16px;cursor:pointer}nav button.active{background:#eef3fb;color:#071323}main{max-width:1200px;margin:auto;padding:22px}.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}.card h2,.card h3{margin-top:0}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{color:var(--muted);font-size:13px}.field input,.field select,.field textarea{background:#071525;color:var(--text);border:1px solid #294463;border-radius:9px;padding:10px;font:inherit}.field textarea{min-height:75px;resize:vertical}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.component{border-left:4px solid var(--accent)}.component .title{display:flex;justify-content:space-between;align-items:center;gap:10px}.badge{padding:5px 9px;border-radius:99px;background:#17304f;color:#bfd0e5;font-size:12px}.ok{color:var(--ok)}.danger{color:var(--danger)}button.primary{background:#eef3fb;color:#071323;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}.buttonrow{display:flex;gap:10px;flex-wrap:wrap}.notice{border-left:5px solid var(--accent);background:#171b1b;padding:14px 16px;margin-bottom:16px}.small{color:var(--muted);font-size:13px}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.photo-grid img{width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:10px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}@media(max-width:650px){.row{grid-template-columns:1fr}main{padding:14px}}
@@ -71,7 +71,7 @@
 </main>
 
 <div style="max-width:1200px;margin:0 auto;padding:12px 22px 28px;color:#9eb0c9;font-size:12px;text-align:center">
-  PCP NEXUS 1.5.10 · Plantillas por componente · catálogo evolutivo persistente
+  PCP NEXUS 1.5.11 · Plantillas por componente · catálogo evolutivo persistente
 </div>
 <script>
 const components=[
@@ -364,6 +364,7 @@ function build(){
     for(const x of c[2]){
       if(x==='Fabricante')continue;
       if(x==='Modelo'){fields+=nxModelField(c,i);continue;}
+      if(c[1]==='Rotor' && x==='Diámetro')continue;
       // Los campos especiales se construyen dentro de nxModelField().
       if(x==='Conexión' && ['Estator','Separador de gas','Ancla anti-torque 1','Ancla anti-torque 2','Barra lisa','Varillas de bombeo','Rotor','Check valve / Seating nipple'].includes(c[1]))continue;
       if(c[1]==='Separador de gas' && (x==='Medida' || x==='Conexión'))continue;
@@ -455,12 +456,6 @@ function renderTrace(){trace.innerHTML=getData().map((x,i)=>`<div class="card"><
 function renderCompletion(){let a=getData().filter(x=>x.destino==='CONTINÚA EN EL POZO'||x.destino==='SALIO Y REGRESÓ');completion.innerHTML=a.length?a.map(x=>`<div class="card"><b>${x.tipo}</b><p>${x.datos.Fabricante||''} · ${x.datos.Modelo||''} · SN ${x.datos.Serial||'N/A'}</p><span class="badge">${x.destino}</span></div>`).join(''):'<p class="small">No hay componentes confirmados para el completamiento final.</p>'}
 function previewPhotos(e){photoGrid.innerHTML='';[...e.target.files].forEach(f=>{let img=document.createElement('img');img.src=URL.createObjectURL(f);photoGrid.appendChild(img)})}
 function resetAll(){if(confirm('¿Crear un expediente nuevo?')){localStorage.removeItem('nexus');location.reload()}}
-nav();
-try{build();nxRefreshAllCatalogDropdowns();nxMarkNumericInputs();}catch(err){console.error('PCP NEXUS: error al construir inspección',err);}
-const cat=document.getElementById('catComponent');
-if(cat) cat.innerHTML=components.map(c=>`<option>${htmlEscape(c[1])}</option>`).join('');
-
-
 /* =========================================================
    CATÁLOGO EVOLUTIVO PERSISTENTE — PCP NEXUS 1.5.7
    Todo fabricante/modelo/medida ingresado manualmente queda
@@ -694,6 +689,17 @@ function nxBindCatalogPersistence(){
   });
 }
 nxBindCatalogPersistence();
+
+// Inicialización final: el catálogo persistente ya está cargado antes de construir la inspección.
+nav();
+try{
+  build();
+  nxRefreshAllCatalogDropdowns();
+  nxMarkNumericInputs();
+  nxBindCatalogPersistence();
+}catch(err){
+  console.error('PCP NEXUS: error al construir inspección',err);
+}
 
 </script>
 
