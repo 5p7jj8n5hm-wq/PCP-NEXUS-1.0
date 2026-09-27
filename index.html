@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PCP NEXUS 1.5.8</title>
+<title>PCP NEXUS 1.5.9</title>
 <style>
 :root{--bg:#071323;--panel:#102139;--panel2:#0b182b;--line:#263d5b;--text:#e8eef8;--muted:#9eb0c9;--accent:#f4c21d;--ok:#36c98f;--danger:#f06d6d}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}header{padding:22px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,19,35,.96);z-index:5}h1{margin:0;font-size:30px}header p{margin:5px 0 0;color:var(--muted)}nav{display:flex;gap:8px;overflow:auto;padding:12px 20px;border-bottom:1px solid var(--line);background:#08172a}nav button{white-space:nowrap;background:#0d2038;color:#aebed3;border:1px solid var(--line);border-radius:22px;padding:10px 16px;cursor:pointer}nav button.active{background:#eef3fb;color:#071323}main{max-width:1200px;margin:auto;padding:22px}.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}.card h2,.card h3{margin-top:0}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{color:var(--muted);font-size:13px}.field input,.field select,.field textarea{background:#071525;color:var(--text);border:1px solid #294463;border-radius:9px;padding:10px;font:inherit}.field textarea{min-height:75px;resize:vertical}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.component{border-left:4px solid var(--accent)}.component .title{display:flex;justify-content:space-between;align-items:center;gap:10px}.badge{padding:5px 9px;border-radius:99px;background:#17304f;color:#bfd0e5;font-size:12px}.ok{color:var(--ok)}.danger{color:var(--danger)}button.primary{background:#eef3fb;color:#071323;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}.buttonrow{display:flex;gap:10px;flex-wrap:wrap}.notice{border-left:5px solid var(--accent);background:#171b1b;padding:14px 16px;margin-bottom:16px}.small{color:var(--muted);font-size:13px}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.photo-grid img{width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:10px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}@media(max-width:650px){.row{grid-template-columns:1fr}main{padding:14px}}
@@ -14,7 +14,7 @@
 
 </head>
 <body>
-<header><h1>🧠 PCP NEXUS <span class="small">1.5.8</span></h1><p>Análisis PCP · Trazabilidad · Completamiento · Espaciamiento · Despliegues de inspección 1.5.8</p></header>
+<header><h1>🧠 PCP NEXUS <span class="small">1.5.9</span></h1><p>Análisis PCP · Trazabilidad · Completamiento · Espaciamiento · Catálogo evolutivo persistente</p></header>
 <nav id="nav">
 <button class="active" onclick="show('inicio',this)">Inicio</button>
 <button onclick="show('inspeccion',this)">🧠 Inspección</button>
@@ -57,8 +57,8 @@
 </section>
 <section id="espaciamiento" class="tab"><div class="card"><h2>Espaciamiento</h2><div class="row"><div class="field"><label>Profundidad de referencia</label><input type="number"></div><div class="field"><label>Longitud / ajuste</label><input type="number"></div></div><div class="notice">Los cálculos definitivos deben utilizar los datos reales del reporte y las reglas de espaciamiento definidas para el pozo.</div></div></section>
 <section id="catalogo_dinamico" class="tab"><div class="card">
-<h2>Catálogo evolutivo por componente</h2>
-<p class="small">Agregar fabricante, modelo o medida/configuración nuevos sin mezclarlos entre componentes. <b>Los datos ingresados manualmente quedan guardados en este dispositivo y pasan a ser opciones desplegables para futuras inspecciones.</b></p>
+<h2>Catálogo evolutivo por componente · 1.5.9</h2>
+<p class="small">Agregar fabricante, modelo o medida/configuración nuevos sin mezclarlos entre componentes. <b>Los fabricantes, modelos y medidas/configuraciones ingresados manualmente quedan guardados en este dispositivo y pasan a ser opciones desplegables para futuras inspecciones. Los datos propios de cada equipo (serial, amperaje, potencia, RPM, etc.) permanecen dentro de su expediente y no se convierten en opciones de catálogo.</b></p>
 <div class="grid">
 <div class="field"><label>Componente</label><select id="catComponent"></select></div>
 <div class="field"><label>Fabricante nuevo</label><input id="catManufacturer"></div>
@@ -71,16 +71,15 @@
 </main>
 
 <div style="max-width:1200px;margin:0 auto;padding:12px 22px 28px;color:#9eb0c9;font-size:12px;text-align:center">
-  PCP NEXUS 1.5.8 · Plantillas por componente · catálogos persistentes
+  PCP NEXUS 1.5.9 · Plantillas por componente · catálogo evolutivo persistente
 </div>
 <script>
 const components=[
 ['superficie','Cabezal de pozo',['Fabricante','Modelo','Serial','Relación de poleas','Ø eje hueco','Ø poleas','Correas','Carga máxima'],'Correcto ajuste de correas;Pastilla de freno/caliper operativos;Buen nivel y estado del aceite;Empaques stuffing box operativos;Buen estado de guardas externas;Tornillería completa y ajustada;Libre giro del eje del cabezal;Grapa de potencia / seguridad;Ausencia de fugas y/o filtraciones'],
-['superficie','Motor eléctrico',['Fabricante','Modelo','Serial','Potencia','Relación','Poleas','RPM','Voltaje'],'Correcto ajuste en bornera/terminales;Ausencia de humedad caja de conexión;Ausencia de sulfato en conexiones;Conexión de puesta a tierra;Buen estado de carcasa/cuerpo;Buen estado de guarda del ventilador;Ruidos anormales;Libre giro del eje del motor'],
+['superficie','Motor eléctrico',['Fabricante','Modelo','Serial','Potencia','Amperaje','Relación','Poleas','RPM','Voltaje'],'Correcto ajuste en bornera/terminales;Ausencia de humedad caja de conexión;Ausencia de sulfato en conexiones;Conexión de puesta a tierra;Buen estado de carcasa/cuerpo;Buen estado de guarda del ventilador;Ruidos anormales;Libre giro del eje del motor'],
 ['superficie','Variador de frecuencia',['Fabricante','Modelo','Serial','Potencia','Relación','Voltaje','Amp','Temporizador'],'Correcto estado/ajuste en conexiones;Ventiladores/extractores operativos;Ausencia de puntos calientes/cortos;Iluminación interna;Conexión de puesta a tierra;Verificación de límite de alto torque;Verificación de límite de bajo torque;Programación correcta;Verificación de rampas acel./desacel.'],
-['fondo','Bomba PCP',['Fabricante','Modelo','Serial','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Cuerpo sin golpes/desgaste;Conexiones en buen estado'],
 ['fondo','Estator',['Fabricante','Modelo','Serial','Elastómero','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Elastómero sin hinchamiento;Elastómero sin desgarro;Ausencia de burbujas de gas;Presencia de sólidos/incrustaciones;Sin obstrucción de intake a descarga'],
-['fondo','Rotor',['Fabricante','Modelo','Serial','Size','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Ausencia de trabajo de pin;Ausencia de piel de naranja;Ausencia de desgaste/rayaduras;Sin deformaciones;Sin pérdida de cromo'],
+['fondo','Rotor',['Fabricante','Modelo','Serial','Diámetro'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Ausencia de trabajo de pin;Ausencia de piel de naranja;Ausencia de desgaste/rayaduras;Sin deformaciones;Sin pérdida de cromo'],
 ['fondo','Ancla anti-torque 1',['Fabricante','Modelo','Serial','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Cuerpo sin golpes/desgaste;Aletas/garras operativas;Ausencia de corrosión en roscas'],
 ['fondo','Ancla anti-torque 2',['Fabricante','Modelo','Serial','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Cuerpo sin golpes/desgaste;Aletas/garras operativas;Ausencia de corrosión en roscas'],
 ['fondo','Check valve / Seating nipple',['Fabricante','Modelo','Serial','Conexión'],'Roscas/conexiones operativas;Ausencia de corrosión externa;Cuerpo sin golpes/desgaste;Adecuado asentamiento;Prisioneros en buen estado'],
@@ -102,7 +101,6 @@ const NX_MANUFACTURERS={
   'Estator':['NETZSCH'],
   'Rotor':['NETZSCH'],
   'Separador de gas':['Premium','EOT'],
-  'Bomba PCP':[],
   'Rod Guide / Centralizador':[],
   'Check valve / Seating nipple':[],
   'Motor eléctrico':['WESTERN ELECTRIC'],
@@ -231,7 +229,6 @@ function nxManufacturerField(c,i){
 
 function nxModelField(c,i){
   if(c[1]==='Motor eléctrico' || c[1]==='Variador de frecuencia'){
-    const map=NX_SURFACE_MODELS[c[1]]||{};
     return `<div class="field"><label>Modelo</label><select data-comp="${i}" data-field="Modelo"><option value="">Seleccionar fabricante primero</option></select></div>`;
   }
   if(c[1]==='Cabezal de pozo'){
@@ -252,9 +249,16 @@ function nxModelField(c,i){
       <div class="field"><label>Conexión</label>
       <select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_LIMITED.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
   }
-  if(c[1]==='Bomba PCP'){
-    return `<div class="field"><label>Modelo / referencia</label><select data-comp="${i}" data-field="Modelo"><option value="">Seleccionar modelo</option><option value="__manual">✍️ Otro / ingreso manual</option></select></div>
-      <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
+  if(c[1]==='Rotor'){
+    const base=['1"','1 1/8"'];
+    const user=nxAllMeasures('Rotor','','');
+    const measures=[...new Set([...base,...user])];
+    return `<div class="field"><label>Diámetro / medida del rotor</label>
+      <select data-comp="${i}" data-field="Diámetro">
+        <option value="">Seleccionar medida</option>
+        ${measures.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')}
+        <option value="__manual">✍️ Otra / ingreso manual</option>
+      </select></div>`;
   }
   if(c[1]==='Ancla anti-torque 1'||c[1]==='Ancla anti-torque 2'){
     return `<div class="field"><label>Modelo / referencia</label><input data-comp="${i}" data-field="Modelo" placeholder="Registrar modelo verificable"></div>
@@ -277,7 +281,6 @@ function nxModelField(c,i){
     <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>
     <div class="field nx-manual-model" id="manualModel_${i}" style="display:none"><label>Modelo / referencia (manual)</label><input data-comp="${i}" data-field="Modelo_manual" placeholder="Escriba el modelo o referencia"></div>`;
 }
-
 function build(){
   const box=document.getElementById('components');
   if(!box)return;
@@ -290,7 +293,7 @@ function build(){
       if(x==='Fabricante')continue;
       // Estos campos son construidos como desplegables/cascadas por nxModelField().
       if(x==='Modelo'){fields+=nxModelField(c,i);continue;}
-      if(x==='Conexión' && ['Bomba PCP','Separador de gas','Ancla anti-torque 1','Ancla anti-torque 2','Barra lisa','Varillas de bombeo'].includes(c[1]))continue;
+      if(x==='Conexión' && ['Separador de gas','Ancla anti-torque 1','Ancla anti-torque 2','Barra lisa','Varillas de bombeo','Rotor'].includes(c[1]))continue;
       if(c[1]==='Separador de gas' && (x==='Medida' || x==='Conexión'))continue;
       if(c[1]==='Varillas de bombeo' && ['Diámetro','Longitud por varilla','Grado','Conexión'].includes(x))continue;
       if(c[1]==='Barra lisa' && (x==='Medida / configuración' || x==='Conexión'))continue;
@@ -343,7 +346,7 @@ function build(){
         sm.addEventListener('change',()=>{const list=nxAllMeasures(c[1],maker.value,sm.value);ss.innerHTML='<option value="">Seleccionar medida</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otra / ingreso manual</option>';});
       }
     }
-    const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"]');
+    const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
     if(measure&&measure.tagName==='SELECT')measure.addEventListener('change',()=>{let boxm=card.querySelector('[data-field="Medida_manual"]');if(measure.value==='__manual'&&!boxm){const wrap=document.createElement('div');wrap.className='field';wrap.innerHTML='<label>Medida / configuración (manual)</label><input data-comp="'+i+'" data-field="Medida_manual" placeholder="Escriba la medida/configuración">';measure.closest('.field').after(wrap);}else if(measure.value!=='__manual'&&boxm)boxm.closest('.field').remove();});
     const model=card.querySelector('[data-field="Modelo"]');
     if(model&&model.tagName==='SELECT')model.addEventListener('change',()=>{const m=card.querySelector('#manualModel_'+i);if(m)m.style.display=model.value==='__manual'?'flex':'none';});
@@ -371,7 +374,7 @@ function nxNormalizeManualFields(){
 }
 
 function save(){localStorage.setItem('nexus',JSON.stringify({pozo:pozo.value,fecha:fecha.value,falla:falla.value,componentes:getData()}));alert('Expediente NEXUS guardado localmente.');}
-const NX_NUMERIC_FIELDS=['Potencia','Corriente','Ø poleas','RPM','Voltaje','Amp','Relación','Relación de poleas','Ø eje hueco','Carga máxima','Diámetro','Longitud','Longitud por varilla','Profundidad de referencia','Longitud / ajuste'];
+const NX_NUMERIC_FIELDS=['Potencia','Amperaje','Corriente','Ø poleas','RPM','Voltaje','Amp','Relación','Relación de poleas','Ø eje hueco','Carga máxima','Diámetro','Longitud','Longitud por varilla','Profundidad de referencia','Longitud / ajuste'];
 function nxIsNumericLabel(label){return NX_NUMERIC_FIELDS.includes(label)||/^Ø /.test(label)||/^(Potencia|Corriente|RPM|Voltaje|Amp|Longitud|Diámetro|Profundidad)/i.test(label)}
 function nxValidateNumericInputs(){let bad=[];document.querySelectorAll('[data-field]').forEach(e=>{if(nxIsNumericLabel(e.dataset.field)&&e.value.trim()!==''&&!/^[-+]?\d+(?:[.,]\d+)?$/.test(e.value.trim()))bad.push(e.dataset.field)});return [...new Set(bad)]}
 function nxMarkNumericInputs(){document.querySelectorAll('[data-field]').forEach(e=>{if(nxIsNumericLabel(e.dataset.field)){e.setAttribute('inputmode','decimal');e.setAttribute('type','text');e.setAttribute('pattern','[-+]?\\d+(?:[.,]\\d+)?');e.title='Solo valor numérico';}})}
@@ -444,6 +447,7 @@ function nxAllMeasures(component,manufacturer,model){
   const user=(nxEnsureCatalog(component).medidas[manufacturer+'|'+model]||[]);
   let base=[];
   if(component==='Barra lisa') base=NX_BAR_MEASURES||[];
+  if(component==='Rotor') base=['1"','1 1/8"'];
   if(component==='Rod Guide / Centralizador') base=[
     'Guía inyectada · 3-1/2"',
     'Guía inyectada · 2-7/8"',
@@ -500,7 +504,7 @@ function nxRegisterManualCatalogValues(component,index,card){
     if(modelValue) nxAddPersistentModel(component,manufacturer,modelValue);
   }
 
-  const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"]');
+  const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
   if(measure){
     let measureValue=measure.value||'';
     if(measureValue==='__manual'){
@@ -554,9 +558,33 @@ function nxRefreshAllCatalogDropdowns(){
       if(opts.includes(current))maker.value=current;
       else if(current==='__manual')maker.value='__manual';
     }
+
+    const model=card.querySelector('[data-field="Modelo"]');
+    if(model && model.tagName==='SELECT' && maker){
+      const currentModel=model.value;
+      const models=nxAllModels(component,maker.value);
+      if(models.length){
+        model.innerHTML='<option value="">Seleccionar modelo</option>'+models.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otro / ingreso manual</option>';
+        if(models.includes(currentModel))model.value=currentModel;
+        else if(currentModel==='__manual')model.value='__manual';
+      }
+    }
+
+    const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
+    if(measure && measure.tagName==='SELECT'){
+      const currentMeasure=measure.value;
+      let measures=[];
+      if(component==='Rotor') measures=nxAllMeasures('Rotor','','');
+      else if(component==='Separador de gas') measures=nxAllMeasures(component,maker?.value||'',model?.value||'');
+      else measures=nxAllMeasures(component,maker?.value||'',model?.value||'');
+      if(measures.length){
+        measure.innerHTML='<option value="">Seleccionar medida</option>'+measures.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otra / ingreso manual</option>';
+        if(measures.includes(currentMeasure))measure.value=currentMeasure;
+        else if(currentMeasure==='__manual')measure.value='__manual';
+      }
+    }
   });
 }
-
 function nxRenderCatalogManager(){
   const sel=document.getElementById('catComponent');
   if(sel && !sel.options.length){
@@ -565,6 +593,29 @@ function nxRenderCatalogManager(){
 }
 
 nxRenderCatalogManager();
+
+/* Registrar inmediatamente los nuevos fabricantes/modelos/medidas manuales.
+   Los datos específicos del equipo (serial, amperaje, potencia, etc.) NO se convierten
+   en catálogo: solo los datos de catálogo se reutilizan en futuros pozos. */
+function nxBindCatalogPersistence(){
+  document.querySelectorAll('.component').forEach((card,i)=>{
+    const component=components[i][1];
+    card.querySelectorAll('input[data-field="Fabricante_manual"],input[data-field="Modelo_manual"],input[data-field="Medida_manual"]').forEach(inp=>{
+      inp.addEventListener('blur',()=>{
+        nxRegisterManualCatalogValues(component,i,card);
+        nxRefreshAllCatalogDropdowns();
+      });
+    });
+    card.querySelectorAll('select[data-field="Fabricante"],select[data-field="Modelo"],select[data-field="Medida"],select[data-field="Medida / configuración"],select[data-field="Diámetro"]').forEach(sel=>{
+      sel.addEventListener('change',()=>{
+        if(sel.value==='__manual')return;
+        nxRegisterManualCatalogValues(component,i,card);
+        nxRefreshAllCatalogDropdowns();
+      });
+    });
+  });
+}
+nxBindCatalogPersistence();
 
 </script>
 
