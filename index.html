@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PCP NEXUS 1.5.9</title>
+<title>PCP NEXUS 1.5.10</title>
 <style>
 :root{--bg:#071323;--panel:#102139;--panel2:#0b182b;--line:#263d5b;--text:#e8eef8;--muted:#9eb0c9;--accent:#f4c21d;--ok:#36c98f;--danger:#f06d6d}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}header{padding:22px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,19,35,.96);z-index:5}h1{margin:0;font-size:30px}header p{margin:5px 0 0;color:var(--muted)}nav{display:flex;gap:8px;overflow:auto;padding:12px 20px;border-bottom:1px solid var(--line);background:#08172a}nav button{white-space:nowrap;background:#0d2038;color:#aebed3;border:1px solid var(--line);border-radius:22px;padding:10px 16px;cursor:pointer}nav button.active{background:#eef3fb;color:#071323}main{max-width:1200px;margin:auto;padding:22px}.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}.card h2,.card h3{margin-top:0}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{color:var(--muted);font-size:13px}.field input,.field select,.field textarea{background:#071525;color:var(--text);border:1px solid #294463;border-radius:9px;padding:10px;font:inherit}.field textarea{min-height:75px;resize:vertical}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.component{border-left:4px solid var(--accent)}.component .title{display:flex;justify-content:space-between;align-items:center;gap:10px}.badge{padding:5px 9px;border-radius:99px;background:#17304f;color:#bfd0e5;font-size:12px}.ok{color:var(--ok)}.danger{color:var(--danger)}button.primary{background:#eef3fb;color:#071323;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}.buttonrow{display:flex;gap:10px;flex-wrap:wrap}.notice{border-left:5px solid var(--accent);background:#171b1b;padding:14px 16px;margin-bottom:16px}.small{color:var(--muted);font-size:13px}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.photo-grid img{width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:10px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}@media(max-width:650px){.row{grid-template-columns:1fr}main{padding:14px}}
@@ -14,7 +14,7 @@
 
 </head>
 <body>
-<header><h1>🧠 PCP NEXUS <span class="small">1.5.9</span></h1><p>Análisis PCP · Trazabilidad · Completamiento · Espaciamiento · Catálogo evolutivo persistente</p></header>
+<header><h1>🧠 PCP NEXUS <span class="small">1.5.10</span></h1><p>Análisis PCP · Trazabilidad · Completamiento · Espaciamiento · Catálogo evolutivo persistente</p></header>
 <nav id="nav">
 <button class="active" onclick="show('inicio',this)">Inicio</button>
 <button onclick="show('inspeccion',this)">🧠 Inspección</button>
@@ -57,7 +57,7 @@
 </section>
 <section id="espaciamiento" class="tab"><div class="card"><h2>Espaciamiento</h2><div class="row"><div class="field"><label>Profundidad de referencia</label><input type="number"></div><div class="field"><label>Longitud / ajuste</label><input type="number"></div></div><div class="notice">Los cálculos definitivos deben utilizar los datos reales del reporte y las reglas de espaciamiento definidas para el pozo.</div></div></section>
 <section id="catalogo_dinamico" class="tab"><div class="card">
-<h2>Catálogo evolutivo por componente · 1.5.9</h2>
+<h2>Catálogo evolutivo por componente · 1.5.10</h2>
 <p class="small">Agregar fabricante, modelo o medida/configuración nuevos sin mezclarlos entre componentes. <b>Los fabricantes, modelos y medidas/configuraciones ingresados manualmente quedan guardados en este dispositivo y pasan a ser opciones desplegables para futuras inspecciones. Los datos propios de cada equipo (serial, amperaje, potencia, RPM, etc.) permanecen dentro de su expediente y no se convierten en opciones de catálogo.</b></p>
 <div class="grid">
 <div class="field"><label>Componente</label><select id="catComponent"></select></div>
@@ -71,7 +71,7 @@
 </main>
 
 <div style="max-width:1200px;margin:0 auto;padding:12px 22px 28px;color:#9eb0c9;font-size:12px;text-align:center">
-  PCP NEXUS 1.5.9 · Plantillas por componente · catálogo evolutivo persistente
+  PCP NEXUS 1.5.10 · Plantillas por componente · catálogo evolutivo persistente
 </div>
 <script>
 const components=[
@@ -209,7 +209,7 @@ const NX_HEAD_MATERIAL_GRADES=[
 function htmlEscape(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#039;');}
 
 function nxManufacturerField(c,i){
-  const opts=(c[1]==='Cabezal de pozo') ? NX_HEAD_MANUFACTURERS : (NX_MANUFACTURERS[c[1]]||[]);
+  const opts=nxAllManufacturers(c[1]);
   const options=opts.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('');
   return `
     <div class="field">
@@ -222,37 +222,103 @@ function nxManufacturerField(c,i){
     </div>
     <div class="field nx-manual-maker" id="manualMaker_${i}" style="display:none">
       <label>Fabricante (manual)</label>
-      <input data-comp="${i}" data-field="Fabricante_manual" placeholder="Escriba el fabricante">
+      <div class="row"><input data-comp="${i}" data-field="Fabricante_manual" placeholder="Escriba el fabricante"><button type="button" onclick="nxSaveManualMaker(${i})">Guardar fabricante</button></div>
     </div>
   `;
 }
 
+function nxManualModelHtml(i){
+  return `<div class="field nx-manual-model" id="manualModel_${i}" style="display:none">
+    <label>Nuevo modelo / referencia</label>
+    <div class="row"><input data-comp="${i}" data-field="Modelo_manual" placeholder="Escriba el modelo o referencia"><button type="button" onclick="nxSaveManualModel(${i})">Guardar modelo</button></div>
+  </div>`;
+}
+
+function nxModelOptionsHtml(component,manufacturer,placeholder='Seleccionar modelo'){
+  const list=nxAllModels(component,manufacturer);
+  return `<option value="">${htmlEscape(placeholder)}</option>${list.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')}<option value="__manual">✍️ Crear / registrar modelo</option>`;
+}
+
+function nxResolvedManufacturer(card){
+  const sel=card?.querySelector('[data-field="Fabricante"]');
+  if(!sel)return '';
+  if(sel.value==='__manual')return (card.querySelector('[data-field="Fabricante_manual"]')?.value||'').trim();
+  return sel.value||'';
+}
+
+function nxResolvedModel(card){
+  const sel=card?.querySelector('[data-field="Modelo"]');
+  if(!sel)return '';
+  if(sel.value==='__manual')return (card.querySelector('[data-field="Modelo_manual"]')?.value||'').trim();
+  return sel.value||'';
+}
+
+function nxSaveManualMaker(i){
+  const card=document.querySelectorAll('.component')[i];
+  if(!card)return;
+  const input=card.querySelector('[data-field="Fabricante_manual"]');
+  const value=(input?.value||'').trim();
+  if(!value)return;
+  nxAddPersistentManufacturer(components[i][1],value);
+  nxRefreshAllCatalogDropdowns();
+  const maker=card.querySelector('[data-field="Fabricante"]');
+  if(maker){maker.value=value;}
+  const manual=card.querySelector('#manualMaker_'+i); if(manual)manual.style.display='none';
+  nxRefreshCardModels(card,i);
+}
+
+function nxSaveManualModel(i){
+  const card=document.querySelectorAll('.component')[i];
+  if(!card)return;
+  const input=card.querySelector('[data-field="Modelo_manual"]');
+  const value=(input?.value||'').trim();
+  const manufacturer=nxResolvedManufacturer(card);
+  if(!value || !manufacturer)return;
+  nxAddPersistentModel(components[i][1],manufacturer,value);
+  const model=card.querySelector('[data-field="Modelo"]');
+  if(model){
+    const models=nxAllModels(components[i][1],manufacturer);
+    model.innerHTML=nxModelOptionsHtml(components[i][1],manufacturer);
+    model.value=value;
+  }
+  const manual=card.querySelector('#manualModel_'+i); if(manual)manual.style.display='none';
+  nxRefreshCardMeasures(card,i);
+}
+
+function nxRefreshCardModels(card,i){
+  const component=components[i][1];
+  const manufacturer=nxResolvedManufacturer(card);
+  const model=card.querySelector('[data-field="Modelo"]');
+  if(!model || model.tagName!=='SELECT')return;
+  if(component==='Rotor')return;
+  if(component==='Separador de gas'){
+    model.innerHTML=nxModelOptionsHtml(component,manufacturer,'Seleccionar modelo');
+    const measure=card.querySelector('[data-field="Medida"]');
+    if(measure) measure.innerHTML='<option value="">Seleccionar modelo primero</option>';
+  }else if(component==='Cabezal de pozo' || true){
+    model.innerHTML=nxModelOptionsHtml(component,manufacturer,'Seleccionar modelo');
+  }
+}
+
+function nxRefreshCardMeasures(card,i){
+  const component=components[i][1];
+  const maker=nxResolvedManufacturer(card);
+  const model=nxResolvedModel(card);
+  const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
+  if(!measure || measure.tagName!=='SELECT')return;
+  let list=[];
+  if(component==='Rotor')list=nxAllMeasures('Rotor','','');
+  else list=nxAllMeasures(component,maker,model);
+  if(!list.length && component==='Separador de gas'){
+    measure.innerHTML='<option value="">Registrar medida manualmente</option><option value="__manual">✍️ Registrar nueva medida</option>';
+  }else{
+    measure.innerHTML='<option value="">Seleccionar medida</option>'+list.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Registrar nueva medida</option>';
+  }
+}
+
 function nxModelField(c,i){
-  if(c[1]==='Motor eléctrico' || c[1]==='Variador de frecuencia'){
-    return `<div class="field"><label>Modelo</label><select data-comp="${i}" data-field="Modelo"><option value="">Seleccionar fabricante primero</option></select></div>`;
-  }
-  if(c[1]==='Cabezal de pozo'){
-    return `<div class="field"><label>Modelo de cabezal</label>
-      <select id="headModel_${i}" data-comp="${i}" data-field="Modelo">
-        <option value="">Seleccionar fabricante primero</option>
-      </select></div>`;
-  }
-  if(c[1]==='Separador de gas'){
-    return `<div class="field"><label>Modelo</label>
-      <select id="separatorModel_${i}" data-comp="${i}" data-field="Modelo">
-        <option value="">Seleccionar fabricante primero</option>
-      </select></div>
-      <div class="field"><label>Medida</label>
-      <select id="separatorMeasure_${i}" data-comp="${i}" data-field="Medida">
-        <option value="">Seleccionar modelo primero</option>
-      </select></div>
-      <div class="field"><label>Conexión</label>
-      <select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_LIMITED.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
-  }
   if(c[1]==='Rotor'){
-    const base=['1"','1 1/8"'];
-    const user=nxAllMeasures('Rotor','','');
-    const measures=[...new Set([...base,...user])];
+    const measures=nxAllMeasures('Rotor','','');
     return `<div class="field"><label>Diámetro / medida del rotor</label>
       <select data-comp="${i}" data-field="Diámetro">
         <option value="">Seleccionar medida</option>
@@ -260,40 +326,46 @@ function nxModelField(c,i){
         <option value="__manual">✍️ Otra / ingreso manual</option>
       </select></div>`;
   }
-  if(c[1]==='Ancla anti-torque 1'||c[1]==='Ancla anti-torque 2'){
-    return `<div class="field"><label>Modelo / referencia</label><input data-comp="${i}" data-field="Modelo" placeholder="Registrar modelo verificable"></div>
-      <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_LIMITED.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
+  if(c[1]==='Separador de gas'){
+    return `<div class="field"><label>Modelo</label>
+      <select id="separatorModel_${i}" data-comp="${i}" data-field="Modelo"><option value="">Seleccionar fabricante primero</option></select></div>
+      ${nxManualModelHtml(i)}
+      <div class="field"><label>Medida</label>
+      <select id="separatorMeasure_${i}" data-comp="${i}" data-field="Medida"><option value="">Seleccionar modelo primero</option><option value="__manual">✍️ Registrar nueva medida</option></select></div>
+      <div class="field"><label>Conexión</label>
+      <select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_LIMITED.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
   }
   if(c[1]==='Varillas de bombeo'){
     return `<div class="field"><label>Diámetro</label><input data-comp="${i}" data-field="Diámetro" value="1" inputmode="decimal"></div>
       <div class="field"><label>Longitud por varilla</label><select data-comp="${i}" data-field="Longitud por varilla"><option value="25 ft">25 ft</option><option value="__manual">✍️ Otra / ingreso manual</option></select></div>
-      <div class="field"><label>Grado / marca</label><select data-comp="${i}" data-field="Grado"><option value="">Seleccionar</option><option value="__manual">✍️ Otro / ingreso manual</option></select></div>
+      <div class="field"><label>Grado / marca</label><select data-comp="${i}" data-field="Grado"><option value="">Seleccionar</option>${NX_ROD_GRADES.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}<option value="__manual">✍️ Otro / ingreso manual</option></select></div>
       <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
   }
   if(c[1]==='Barra lisa'){
-    return `<div class="field"><label>Medida / configuración</label><select data-comp="${i}" data-field="Medida / configuración"><option value="">Seleccionar</option>${(NX_BAR_MEASURES||[]).map(x=>`<option>${htmlEscape(x)}</option>`).join('')}<option value="__manual">✍️ Otra / ingreso manual</option></select></div>
+    const measures=nxAllMeasures('Barra lisa','','');
+    return `<div class="field"><label>Medida / configuración</label><select data-comp="${i}" data-field="Medida / configuración"><option value="">Seleccionar</option>${measures.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}<option value="__manual">✍️ Otra / ingreso manual</option></select></div>
       <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
   }
-  const opts=NX_MODELS[c[1]]||[];
-  if(!opts.length) return `<div class="field"><label>Modelo / referencia</label><input data-comp="${i}" data-field="Modelo" placeholder="Ingresar manualmente si no existe en catálogo"></div>
-    <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
-  return `<div class="field"><label>Modelo / referencia</label><select data-comp="${i}" data-field="Modelo"><option value="">Seleccionar modelo</option>${opts.map(x=>`<option value="${htmlEscape(x)}">${htmlEscape(x)}</option>`).join('')}<option value="__manual">✍️ Otro / ingreso manual</option></select></div>
-    <div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>
-    <div class="field nx-manual-model" id="manualModel_${i}" style="display:none"><label>Modelo / referencia (manual)</label><input data-comp="${i}" data-field="Modelo_manual" placeholder="Escriba el modelo o referencia"></div>`;
+  const manufacturerDependent=(c[1]==='Motor eléctrico'||c[1]==='Variador de frecuencia'||c[1]==='Cabezal de pozo'||c[1]==='Ancla anti-torque 1'||c[1]==='Ancla anti-torque 2'||c[1]==='Estator'||c[1]==='Rod Guide / Centralizador'||c[1]==='Check valve / Seating nipple');
+  const opts=nxAllModels(c[1],'');
+  const connection=(c[1]==='Motor eléctrico'||c[1]==='Variador de frecuencia'||c[1]==='Cabezal de pozo'||c[1]==='Rod Guide / Centralizador') ? '' : `<div class="field"><label>Conexión</label><select data-comp="${i}" data-field="Conexión">${NX_CONNECTIONS_GENERAL.map(x=>`<option>${htmlEscape(x)}</option>`).join('')}</select></div>`;
+  return `<div class="field"><label>Modelo / referencia</label><select data-comp="${i}" data-field="Modelo"><option value="">Seleccionar fabricante primero</option></select></div>
+    ${nxManualModelHtml(i)}${connection}`;
 }
 function build(){
   const box=document.getElementById('components');
   if(!box)return;
   box.innerHTML='';
+  let lastGroup='';
   components.forEach((c,i)=>{
     const card=document.createElement('div');
     card.className='card component';
     let fields=nxManufacturerField(c,i);
     for(const x of c[2]){
       if(x==='Fabricante')continue;
-      // Estos campos son construidos como desplegables/cascadas por nxModelField().
       if(x==='Modelo'){fields+=nxModelField(c,i);continue;}
-      if(x==='Conexión' && ['Separador de gas','Ancla anti-torque 1','Ancla anti-torque 2','Barra lisa','Varillas de bombeo','Rotor'].includes(c[1]))continue;
+      // Los campos especiales se construyen dentro de nxModelField().
+      if(x==='Conexión' && ['Estator','Separador de gas','Ancla anti-torque 1','Ancla anti-torque 2','Barra lisa','Varillas de bombeo','Rotor','Check valve / Seating nipple'].includes(c[1]))continue;
       if(c[1]==='Separador de gas' && (x==='Medida' || x==='Conexión'))continue;
       if(c[1]==='Varillas de bombeo' && ['Diámetro','Longitud por varilla','Grado','Conexión'].includes(x))continue;
       if(c[1]==='Barra lisa' && (x==='Medida / configuración' || x==='Conexión'))continue;
@@ -301,56 +373,56 @@ function build(){
       fields+=`<div class="field"><label>${htmlEscape(x)}</label><input data-comp="${i}" data-field="${htmlEscape(x)}"></div>`;
     }
     const cond=c[3].split(';').map((x,j)=>`<div class="row"><div class="field"><label>${htmlEscape(x)}</label><select data-comp="${i}" data-cond="${j}"><option selected>NA</option><option>SI</option><option>NO</option></select></div></div>`).join('');
+    const groupHeader=(c[0]!==lastGroup)?`<div class="card" style="margin-top:8px;margin-bottom:12px;border-left:4px solid var(--ok)"><h2 style="margin:0">${c[0]==='fondo'?'EQUIPOS DE FONDO':'EQUIPOS DE SUPERFICIE'}</h2></div>`:'';
+    lastGroup=c[0];
     card.innerHTML=`<div class="title"><h3>${htmlEscape(c[1])}</h3><span class="badge">${c[0].toUpperCase()}</span></div><h4>DATOS DE PLACA / IDENTIFICACIÓN</h4><div class="grid">${fields}</div><h4>CONDICIÓN</h4><div class="grid">${cond}</div><div class="field"><label>Observaciones</label><textarea data-comp="${i}" data-obs></textarea></div><div class="row"><div class="field"><label>Estado</label><select data-comp="${i}" data-state><option>NO DETERMINADO</option><option>OPERATIVO</option><option>NO OPERATIVO</option></select></div><div class="field"><label>Motivo si no está operativo</label><input data-comp="${i}" data-reason></div></div>`;
+    if(groupHeader) box.insertAdjacentHTML('beforeend',groupHeader);
     box.appendChild(card);
 
     const maker=card.querySelector('[data-field="Fabricante"]');
-    if(c[1]==='Motor eléctrico' || c[1]==='Variador de frecuencia'){
-      const sm=card.querySelector('[data-field="Modelo"]');
-      if(maker&&sm){
-        maker.addEventListener('change',()=>{
-          const list=(NX_SURFACE_MODELS[c[1]]||{})[maker.value]||[];
-          sm.innerHTML='<option value="">Seleccionar modelo</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otro / ingreso manual</option>';
-        });
-      }
+    if(maker&&maker.tagName==='SELECT'){
+      maker.addEventListener('change',()=>{
+        const manual=card.querySelector('#manualMaker_'+i); if(manual)manual.style.display=maker.value==='__manual'?'flex':'none';
+        nxRefreshCardModels(card,i);
+        nxRefreshCardMeasures(card,i);
+      });
     }
-    if(c[1]==='Cabezal de pozo'){
-      const hm=card.querySelector('#headModel_'+i);
-      if(maker&&hm){
-        maker.addEventListener('change',()=>{
-          const list=nxAllModels(c[1],maker.value);
-          hm.innerHTML='<option value="">Seleccionar modelo</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otro / ingreso manual</option>';
-        });
-      }
-    }
-    if(c[1]==='Separador de gas'){
-      const sm=card.querySelector('#separatorModel_'+i), ss=card.querySelector('#separatorMeasure_'+i);
-      if(maker&&sm){
-        maker.addEventListener('change',()=>{
-          const list=nxAllModels(c[1],maker.value);
-          sm.innerHTML='<option value="">Seleccionar modelo</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otro / ingreso manual</option>';
-          ss.innerHTML='<option value="">Seleccionar modelo primero</option>';
-        });
-        sm.addEventListener('change',()=>{
-          const list=nxAllMeasures(c[1],maker.value,sm.value);
-          ss.innerHTML='<option value="">Seleccionar medida verificada</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Registrar nueva medida</option>';
-        });
-      }
-    }
-    if(maker&&maker.tagName==='SELECT')maker.addEventListener('change',()=>{const m=card.querySelector('#manualMaker_'+i);if(m)m.style.display=maker.value==='__manual'?'flex':'none';});
-
-    if(c[1]==='Separador de gas'){
-      const sm=card.querySelector('#separatorModel_'+i), ss=card.querySelector('#separatorMeasure_'+i);
-      if(maker&&sm){
-        maker.addEventListener('change',()=>{const list=nxAllModels(c[1],maker.value);sm.innerHTML='<option value="">Seleccionar modelo</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otro / ingreso manual</option>';ss.innerHTML='<option value="">Seleccionar modelo primero</option>';});
-        sm.addEventListener('change',()=>{const list=nxAllMeasures(c[1],maker.value,sm.value);ss.innerHTML='<option value="">Seleccionar medida</option>'+list.map(x=>`<option>${htmlEscape(x)}</option>`).join('')+'<option value="__manual">✍️ Otra / ingreso manual</option>';});
-      }
+    const model=card.querySelector('[data-field="Modelo"]');
+    if(model&&model.tagName==='SELECT'){
+      model.addEventListener('change',()=>{
+        const manual=card.querySelector('#manualModel_'+i); if(manual)manual.style.display=model.value==='__manual'?'flex':'none';
+        nxRefreshCardMeasures(card,i);
+      });
     }
     const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
-    if(measure&&measure.tagName==='SELECT')measure.addEventListener('change',()=>{let boxm=card.querySelector('[data-field="Medida_manual"]');if(measure.value==='__manual'&&!boxm){const wrap=document.createElement('div');wrap.className='field';wrap.innerHTML='<label>Medida / configuración (manual)</label><input data-comp="'+i+'" data-field="Medida_manual" placeholder="Escriba la medida/configuración">';measure.closest('.field').after(wrap);}else if(measure.value!=='__manual'&&boxm)boxm.closest('.field').remove();});
-    const model=card.querySelector('[data-field="Modelo"]');
-    if(model&&model.tagName==='SELECT')model.addEventListener('change',()=>{const m=card.querySelector('#manualModel_'+i);if(m)m.style.display=model.value==='__manual'?'flex':'none';});
+    if(measure&&measure.tagName==='SELECT'){
+      measure.addEventListener('change',()=>{
+        let boxm=card.querySelector('[data-field="Medida_manual"]');
+        if(measure.value==='__manual'&&!boxm){
+          const wrap=document.createElement('div');wrap.className='field';wrap.innerHTML='<label>Medida / configuración (manual)</label><div class="row"><input data-comp="'+i+'" data-field="Medida_manual" placeholder="Escriba la medida/configuración"><button type="button" onclick="nxSaveManualMeasure('+i+')">Guardar medida</button></div>';
+          measure.closest('.field').after(wrap);
+        }else if(measure.value!=='__manual'&&boxm)boxm.closest('.field').remove();
+      });
+    }
   });
+}
+
+function nxSaveManualMeasure(i){
+  const card=document.querySelectorAll('.component')[i];
+  if(!card)return;
+  const input=card.querySelector('[data-field="Medida_manual"]');
+  const value=(input?.value||'').trim();
+  if(!value)return;
+  const manufacturer=nxResolvedManufacturer(card);
+  const model=nxResolvedModel(card);
+  const component=components[i][1];
+  nxAddPersistentMeasure(component,manufacturer,model,value);
+  const measure=card.querySelector('[data-field="Medida / configuración"],[data-field="Medida"],[data-field="Diámetro"]');
+  if(measure){
+    nxRefreshCardMeasures(card,i);
+    measure.value=value;
+  }
+  input.closest('.field')?.remove();
 }
 
 function nav(){const n=document.getElementById('nav');if(!n)return;if(n.children.length)return;const items=[['inicio','Inicio'],['inspeccion','🧠 Inspección'],['servicio','🛠️ Servicio'],['trazabilidad','🔩 Trazabilidad'],['completamiento','📐 Completamiento'],['centralizacion','Centralización'],['catalogo','📚 Catálogo'],['catalogo_dinamico','➕ Catálogo de campo'],['espaciamiento','Espaciamiento']];items.forEach(([id,t],k)=>{let b=document.createElement('button');b.textContent=t;b.onclick=()=>show(id,b);if(k===0)b.className='active';n.appendChild(b)})}function show(id,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='trazabilidad')renderTrace();if(id==='completamiento')renderCompletion()}
@@ -384,7 +456,7 @@ function renderCompletion(){let a=getData().filter(x=>x.destino==='CONTINÚA EN 
 function previewPhotos(e){photoGrid.innerHTML='';[...e.target.files].forEach(f=>{let img=document.createElement('img');img.src=URL.createObjectURL(f);photoGrid.appendChild(img)})}
 function resetAll(){if(confirm('¿Crear un expediente nuevo?')){localStorage.removeItem('nexus');location.reload()}}
 nav();
-try{build();nxMarkNumericInputs();}catch(err){console.error('PCP NEXUS: error al construir inspección',err);}
+try{build();nxRefreshAllCatalogDropdowns();nxMarkNumericInputs();}catch(err){console.error('PCP NEXUS: error al construir inspección',err);}
 const cat=document.getElementById('catComponent');
 if(cat) cat.innerHTML=components.map(c=>`<option>${htmlEscape(c[1])}</option>`).join('');
 
@@ -433,7 +505,13 @@ function nxAllModels(component,manufacturer){
     const user=(nxEnsureCatalog(component).modelos[manufacturer]||[]);
     return [...new Set([...base,...user])];
   }
-  const base=(NX_MODELS[component]||[]);
+  const base=(component==='Motor eléctrico'||component==='Variador de frecuencia') ? nxAllSurfaceModels(component,manufacturer) : (NX_MODELS[component]||[]);
+  const user=(nxEnsureCatalog(component).modelos[manufacturer]||[]);
+  return [...new Set([...base,...user])];
+}
+
+function nxAllSurfaceModels(component,manufacturer){
+  const base=((NX_SURFACE_MODELS[component]||{})[manufacturer]||[]);
   const user=(nxEnsureCatalog(component).modelos[manufacturer]||[]);
   return [...new Set([...base,...user])];
 }
